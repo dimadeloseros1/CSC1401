@@ -179,7 +179,11 @@ def is_valid_date(days_str, month_str, year_str):
         
     return True
     
-    
+def is_subject(subject_str):
+    if len(subject_str) >= 1 and len(subject_str) <= 30:
+        return True
+    else:
+        return False
 
 def add_record():
     
@@ -192,7 +196,6 @@ def add_record():
         # year_str = input("Please input a valid year: ").strip();
         start = int(input('Enter the time at which the meeting needs to be started: '))
         end = int(input('Enter the time at which the meeting needs to be ended: '))
-        subject = input("Please enter the subject that you are wishhing to store: ")
         
         is_date = date_str.split("/")
         
@@ -200,7 +203,7 @@ def add_record():
         month = is_date[1]
         year = is_date[2]
         
-        print(day)
+        # print(day)
         
         if is_valid_date(day, month, year) and is_valid_time(start,end):
             continue_loop = str(input("If you want to continue, then type 'Y' otherwise type 'END':")).upper()          
@@ -210,5 +213,12 @@ def add_record():
             break;
         else:
             print("Invalid date")
+            
+    while True:
+        subject = input("Please enter the subject that you are wishing to store: ").strip()
+        
+        if is_subject(subject):
+            break
+        print("Subject must be between 1 and 30 characters")
                                 
 add_record()
