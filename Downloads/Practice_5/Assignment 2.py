@@ -190,29 +190,24 @@ def add_record():
     # validation_func = is_valid_date(days_str, month_str, year_str)
     meeting_list = []
     
-    print("{:<18}\t{:<18}\t{:<18}\t{:<18}\t{:<18}\t{:<18}".format("Day", "Month", "Year", "Start Time", "End Time", "Subject"))
-    print("{:<18}\t{:<18}\t{:<18}\t{:<18}\t{:<18}".format("--","----","----","-----------", "---------", "---------"))
     
     while True:
-        clear = "\n" * 100
-        # print(clear)
         date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
         
         if date_str.upper() == "END":
             break
         
+        is_date = date_str.split("/")
+        
         if len(is_date) != 3:
             print("Invalid date format. Please use DD/MM/YYYY format.")
             continue
         
-        # days_str = input("Please input a valid day in a month: ").strip();
-        # month_str = input("Please input a valid month in a year: ").strip();
-        # year_str = input("Please input a valid year: ").strip();
+        
         start = int(input('Enter the time at which the meeting needs to be started: '))
         end = int(input('Enter the time at which the meeting needs to be ended: '))
         subject = input("Please enter the subject that you wish to store: ").strip()
         
-        is_date = date_str.split("/")
         
         
         
@@ -222,14 +217,6 @@ def add_record():
         
         # print(day)
         index = 0
-        # if is_valid_date(day, month, year) and is_valid_time(start,end) and is_subject(subject):
-        #     # continue_loop = input("If you want to continue, then type 'Y' otherwise type 'END':").upper()          
-        #     # ending_program(continue_loop)
-        #     # print(day, month, year, start, end, subject)
-        #     meeting_list.append(day, month, year, start, end, subject)
-        #     break;
-        # else:
-        #     print("Invalid date")
             
         # Validating date input
         if not is_valid_date(day, month, year):
@@ -244,38 +231,35 @@ def add_record():
             print("Subject must be between 1 and 30 characters")
             continue
         
-        apointment_list = f"{day}/{month}/{year};{subject};{start}{end}"
+        # apointment_list = f"{day}/{month}/{year};{subject};{start}{end}"
         
-        
+        # A list of the apointment formatted accordingly
         appointment_data = [f"{day}/{month}/{year}", subject, start, end]
+        
+        
         meeting_list.append(appointment_data)
         
-        print("\nAppointment added:")
+        print("\nAppointment added")
+        # After the appointment is added the following print statement,
+        # will display it to the user
         print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
             appointment_data[0], 
             appointment_data[1],  
             appointment_data[2],  
             appointment_data[3],  
         ))
-        # if is_subject(subject):
-        #     break
-        # print("Subject must be between 1 and 30 characters")
-            
-    # while True:
-    #     subject = input("Please enter the subject that you are wishing to store: ").strip()
         
-    #     if is_subject(subject):
-    #         break
-    #     print("Subject must be between 1 and 30 characters")
+    print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("Date", "Subject",  "Start", "End"))
+    print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("----","-------","-----","-----"))
     
+    # We will loop through each appointment added to the list and display all the appointments
+    # Note: This has to be the show_records() function
     for item in meeting_list:
             
-        day = item[0]                            
-        month = item[1]
-        year = item[2]
-        start = item[3]
-        end = item[4]
-        subject = item[5]
-                        
-        print("{:<18}\t{:<18}\t{:<18}\t{:<18}\t{:<18}".format(day, month, year, start, end, subject))                    
+        print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
+               item[0],  # date
+               item[1],  # subject
+               item[2],  # start
+               item[3],  # end
+           ))
 add_record()
