@@ -173,7 +173,24 @@ def show_records(appointment_list):
            ))
 
 def is_concurrent_appointment(input_appointment, appointment_list):
-    
+    '''
+        This function is in-charge of checking wether there is a conflict between
+        the date and time values in any of the list appointments and the current
+        user appointment
+
+    Parameters
+    ----------
+    input_appointment : TYPE
+        string list
+    appointment_list : TYPE
+        string list
+
+    Returns
+    -------
+    bool
+        True if there is an overalp, False otherwise
+
+    '''
     date = input_appointment[0]
     input_start_time = input_appointment[2]
     input_end_time = input_appointment[3]
