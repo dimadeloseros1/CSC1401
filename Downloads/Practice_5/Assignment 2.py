@@ -1,39 +1,4 @@
-#     while True:
-#         if month == 4 or month == 6 or month == 9 or month == 11:
-#             if days >= 1 and days <= 30:
-#                 return days;
-#             else:
-#                 print("Please make sure that the days are between 1 and 30")
-            
-# def date_31(month, days):
-#     while True:
-#         if month == 4 or month == 6 or month == 9 or month == 11:
-#             if days >= 1 and days <= 30:
-#                 return days;
-        
-# def date_28(month, days):
-#     while True:
-#         if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12:
-#             if days >= 1 and days <= 31:
-#                 return days
 
-# def date_29(month, days):
-#     while True:    
-#         if month == 2:
-#             if days >= 1 and days <= 28:
-#                 return days
-# def time_check():
-#     '''
-#     '''
-#     start = int(input('Enter the time at which the meeting needs to be started:'))
-#     end = int(input('Enter the time at which the meeting needs to be ended:'))
-#     if (start < end):
-#         if (7 <= start < 22) and (7 < end <= 22):
-#             return True
-#         else:
-#             print('The meeting or discussion can only be done between 7 and 22.')
-#     else:
-#         print('Invalid input! Try Again')
 def ending_program(continue_loop):
     
     # Again asks the user whether he/she wants to print something else or not by typing 'Y' or 'END', accordingly.    
@@ -184,31 +149,77 @@ def is_subject(subject_str):
         return True
     else:
         return False
+    
+def show_records(appointment_list):
+    '''
+    Parameters
+    ----------
+    appointment_list : TYPE: list
+        This function loops through the appointment_list paramether,
+        and returns all the records which the user has input through.
 
+    Returns
+    -------
+    A list of all the records which the user has input.
+
+    '''
+    for item in appointment_list:
+            
+        print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
+               item[0],  # date
+               item[1],  # subject
+               item[2],  # start
+               item[3],  # end
+           ))
+
+def is_concurrent_appointment(input_appointment, appointment_list):
+    
+    date = input_appointment[0]
+    input_start_time = input_appointment[2]
+    input_end_time = input_appointment[3]
+    
+    for appointment in appointment_list:
+        list_date = appointment[0]
+        list_start_time = appointment[2]
+        list_end_time = appointment[3]
+        
+        # Check for an existing appointment stored in the list and compares it,
+        # with the one that user just input
+        if date == list_date:
+            # if both of the dates above match, the following conditional statement will check,
+            # whether the a list (end time) is less than (input start time), and
+            # whether the (input end time) is greater than (list start time)
+            
+            if (input_start_time < list_end_time and input_end_time > list_start_time):
+                return True
+            
+    return False
+       
+    
 def add_record():
     
     # validation_func = is_valid_date(days_str, month_str, year_str)
-    meeting_list = []
+    appointment_list = []
     
+    # date = date_func()
+    # date_func()    
     
     while True:
-        date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
         
+        # is_date = date
+        date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
         if date_str.upper() == "END":
             break
-        
+            
         is_date = date_str.split("/")
-        
+            
         if len(is_date) != 3:
-            print("Invalid date format. Please use DD/MM/YYYY format.")
+            print("Invalid date format. Please try again")
             continue
-        
         
         start = int(input('Enter the time at which the meeting needs to be started: '))
         end = int(input('Enter the time at which the meeting needs to be ended: '))
         subject = input("Please enter the subject that you wish to store: ").strip()
-        
-        
         
         
         day = is_date[0]
@@ -216,7 +227,7 @@ def add_record():
         year = is_date[2]
         
         # print(day)
-        index = 0
+        # index = 0
             
         # Validating date input
         if not is_valid_date(day, month, year):
@@ -236,8 +247,13 @@ def add_record():
         # A list of the apointment formatted accordingly
         appointment_data = [f"{day}/{month}/{year}", subject, start, end]
         
+        if is_concurrent_appointment(appointment_data, appointment_list):
+            print("Please make sure that the appointment is not held at the same time as the previous appointment")
+            continue
         
-        meeting_list.append(appointment_data)
+        appointment_list.append(appointment_data)
+            
+        
         
         print("\nAppointment added")
         # After the appointment is added the following print statement,
@@ -249,17 +265,14 @@ def add_record():
             appointment_data[3],  
         ))
         
+        
     print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("Date", "Subject",  "Start", "End"))
     print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("----","-------","-----","-----"))
     
-    # We will loop through each appointment added to the list and display all the appointments
-    # Note: This has to be the show_records() function
-    for item in meeting_list:
-            
-        print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
-               item[0],  # date
-               item[1],  # subject
-               item[2],  # start
-               item[3],  # end
-           ))
+    
+    
+    # We will loop through each appointment added to the list 
+    # and display all the appointments via the show_records() function
+    show_records(appointment_list)
+    
 add_record()
