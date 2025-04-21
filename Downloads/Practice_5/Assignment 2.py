@@ -1,37 +1,47 @@
+def date():
+    date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
+    
+    return date_str
+    
+def start_time():
+    start = int(input('Enter the time at which the meeting needs to be started: '))
+    
+    return start
 
-def ending_program(continue_loop):
+def end_time():
+    end = int(input('Enter the time at which the meeting needs to be ended: '))    
     
-    # Again asks the user whether he/she wants to print something else or not by typing 'Y' or 'END', accordingly.    
-    if continue_loop != "Y" or continue_loop != "END":
-        print("Please make sure that the input is either Y or END")
-        return True
-        
-    # Let the code continue, if the user enters 'Y'
-    if continue_loop == 'Y':          
-        return True
-    # Let the code break from the while loop, if the user enters 'END'
-    elif continue_loop == 'END':          
-        return False
+    return end
+
+def subject_str():
+    subject = input("Please enter the subject that you wish to store: ").strip()
     
-        
-        
+    return subject
+
+
+
 def is_valid_time(start, end):
     '''
+    Parameters
+    ----------
+    start : TYPE
+        int
+    end : TYPE
+        int
+
+    Returns
+    -------
+    bool
+        Returns True if the (start) starts before (end) as well as if
+        (start) is between 7 and 22 hours AND (end) is between 7 and 22
+
     '''
     print('Please, enter the starting and ending time of the meeting or discussion from 7 to 22.\n')
-    # validInt = False
-    # while not validInt:
-    #     time_check()
-    #     continue_loop = str(input("If you want to continue, then type 'Y' otherwise type 'END':"))          # Again asks the user whether he/she wants to print something else or not by typing 'Y' or 'END', accordingly.
-    #     if continue_loop == 'Y' or continue_loop == 'y':          # Let the code continue, if the user enters 'Y'
-    #         continue
-    #     elif continue_loop == 'END' or continue_loop == 'end':          # Let the code break from the while loop, if the user enters 'END'
-    #         break
-    #     else:
-    #         print("Enter a valid input out of these('Y, END') ")
-    #         continue_loop = str(input("If you want to continue, then type 'Y' otherwise type 'END':"))
     
+    # The first condition checks whether start is less than end
     if (start < end):
+        # if start is less than end then the next condition proceeds to check,
+        # whether start and end are between 7 and 22
         if (7 <= start < 22) and (7 < end <= 22):
             return True
         else:
@@ -43,26 +53,24 @@ def is_valid_time(start, end):
 
 def is_leap_year(year):
     '''
-    
-
     Parameters
     ----------
     year : TYPE: int
         The year paramether will be checked whether it is every 4. For instance,
         if the year is 2026, it will return (True), if it is 2027,
-        it will return (False)
+        it will return (False), so on and forth.
 
     Returns True or False depending on the user input
     -------
 
     '''
-    if year % 400 == 0:
+    if (year % 400 == 0):
         return True;
     
-    if year % 100 == 0:
+    if (year % 100 == 0):
         return False;
     
-    if year % 4 == 0:
+    if (year % 4 == 0):
         return True;
     
     return False;
@@ -85,13 +93,15 @@ def days_in_month(month, year):
 
     '''
     # Checks if the month is either 4,6,9 or 11
-    if month in (4,6,9,11):
+    if (month in (4, 6, 9, 11)):
         return 30;
     
     # Checks if the month is 2
-    elif month == 2:
-        if is_leap_year(year):
-            return 28
+    elif (month == 2):
+        # If the month is (2) then the function is_leap_year will be invoked
+        # and it will proceed to check whether the year is leap or not
+        if (is_leap_year(year)):
+            return 28;
         else:
             return 29;
         
@@ -117,6 +127,7 @@ def is_valid_date(days_str, month_str, year_str):
     '''
     print("Please input a valid date in a (25/9/2025) date format");
         
+    #This condition checks whether the input from the user is empty or not
     if not (days_str and month_str and year_str):
         print("days, month or year cannot be empty");
         return False
@@ -145,6 +156,20 @@ def is_valid_date(days_str, month_str, year_str):
     return True
     
 def is_subject(subject_str):
+    '''
+    This function is in charge of checking if the input from the user is between
+    1 and 30 characters long.
+    Parameters
+    ----------
+    subject_str : TYPE
+        string
+
+    Returns
+    -------
+    bool
+        Returns True if the input falls between 1 and 30 characters long 
+
+    '''
     if len(subject_str) >= 1 and len(subject_str) <= 30:
         return True
     else:
@@ -191,7 +216,7 @@ def is_concurrent_appointment(input_appointment, appointment_list):
         True if there is an overalp, False otherwise
 
     '''
-    date = input_appointment[0]
+    input_date = input_appointment[0]
     input_start_time = input_appointment[2]
     input_end_time = input_appointment[3]
     
@@ -200,13 +225,18 @@ def is_concurrent_appointment(input_appointment, appointment_list):
         list_start_time = appointment[2]
         list_end_time = appointment[3]
         
-        # Check for an existing appointment stored in the list and compares it,
-        # with the one that user just input
-        if date == list_date:
+        # First this condition will check whether the user input date is the same
+        # as the date from the an appointment saved in the (list), if it is,
+        # then it will proceed to check the next condition
+        
+        if (input_date == list_date):
             # if both of the dates above match, the following conditional statement will check,
             # whether the a list (end time) is less than (input start time), and
             # whether the (input end time) is greater than (list start time)
             
+            # if the (input start time falls in the schedule of the list start and end time
+            # then the loop will continue to be prompted until the user inputs a
+            # time slot that is of a different time than in the list *on that specific day*)
             if (input_start_time < list_end_time and input_end_time > list_start_time):
                 return True
             
@@ -215,28 +245,28 @@ def is_concurrent_appointment(input_appointment, appointment_list):
     
 def add_record():
     
-    # validation_func = is_valid_date(days_str, month_str, year_str)
+    
     appointment_list = []
     
-    # date = date_func()
-    # date_func()    
     
     while True:
         
-        # is_date = date
-        date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
+        date_str = date()
+        
         if date_str.upper() == "END":
             break
-            
+        
+        # This particular line checks for the (/) in the input and splits it accordingly
         is_date = date_str.split("/")
             
-        if len(is_date) != 3:
+        # This condition checks if the length of the split input is not 3
+        if (len(is_date) != 3):
             print("Invalid date format. Please try again")
             continue
         
-        start = int(input('Enter the time at which the meeting needs to be started: '))
-        end = int(input('Enter the time at which the meeting needs to be ended: '))
-        subject = input("Please enter the subject that you wish to store: ").strip()
+        start = start_time()
+        end = end_time()
+        subject = subject_str()
         
         
         day = is_date[0]
@@ -262,13 +292,14 @@ def add_record():
         # apointment_list = f"{day}/{month}/{year};{subject};{start}{end}"
         
         # A list of the apointment formatted accordingly
-        appointment_data = [f"{day}/{month}/{year}", subject, start, end]
+        appointment_data_input = [f"{day}/{month}/{year}", subject, start, end]
         
-        if is_concurrent_appointment(appointment_data, appointment_list):
+        # Validating is concurrent appointment
+        if is_concurrent_appointment(appointment_data_input, appointment_list):
             print("Please make sure that the appointment is not held at the same time as the previous appointment")
             continue
         
-        appointment_list.append(appointment_data)
+        appointment_list.append(appointment_data_input)
             
         
         
@@ -276,10 +307,10 @@ def add_record():
         # After the appointment is added the following print statement,
         # will display it to the user
         print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
-            appointment_data[0], 
-            appointment_data[1],  
-            appointment_data[2],  
-            appointment_data[3],  
+            appointment_data_input[0], 
+            appointment_data_input[1],  
+            appointment_data_input[2],  
+            appointment_data_input[3],  
         ))
         
         
