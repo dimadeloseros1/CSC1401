@@ -1,19 +1,49 @@
 def date():
+    '''
+        This function retrieves the date from the user
+    Returns
+    -------
+    date_str : TYPE
+        Returns a string
+
+    '''
     date_str = input("Please input a valid date in a (23/9/2025) format or END to finish: ").strip()
     
     return date_str
     
 def start_time():
+    '''
+        This function is retrieves the start time from the user
+    Returns
+    -------
+    start : TYPE
+        Returns a string
+    '''
     start = int(input('Enter the time at which the meeting needs to be started: '))
     
     return start
 
 def end_time():
+    '''
+        This function retrieves the end time from the user
+    Returns
+    -------
+    end : TYPE
+        string
+    '''
     end = int(input('Enter the time at which the meeting needs to be ended: '))    
     
     return end
 
 def subject_str():
+    '''
+        This function retrieves the subject from the user
+
+    Returns
+    -------
+    subject : TYPE
+        string
+    '''
     subject = input("Please enter the subject that you wish to store: ").strip()
     
     return subject
@@ -101,18 +131,13 @@ def days_in_month(month, year):
         # If the month is (2) then the function is_leap_year will be invoked
         # and it will proceed to check whether the year is leap or not
         if (is_leap_year(year)):
-            return 28;
+            return 29
         else:
-            return 29;
+            return 28
         
     # If the month is not 4,6,9,11 or 2, the maximum amount of days will be 31
     else:
         return 31;
-    
-# def validating_input():
-#     while True:
-
-        
     
 def is_valid_date(days_str, month_str, year_str):
     '''
@@ -132,25 +157,25 @@ def is_valid_date(days_str, month_str, year_str):
         print("days, month or year cannot be empty");
         return False
         
-    days = int(days_str);
-    month = int(month_str);
-    year = int(year_str);
+    days = int(days_str)
+    month = int(month_str)
+    year = int(year_str)
         
     # If year is (not) between 2025 and 10000 it will prompt an error
-    if not (2025 <= year < 10000):
-        print("Year must be between 2025 and 10000");
+    if not (2024 <= year < 10000):
+        print("Year must be between 2024 and 10000")
         return False
     
     # If month is (not) between 1 and 12 it will prompt an error        
     if not (1 <= month <= 12):
-        print("Month has to be between 1 and 12");
+        print("Month has to be between 1 and 12")
         return False
         
     respective_day = days_in_month(month, year)
         
     # If days is not between 1 and respective_day it will prompt an error    
     if not (1 <= days <= respective_day):
-        print("Day must be ", respective_day, "for month ", month);
+        print("Day must be ", respective_day, "for month ", month)
         return False
         
     return True
@@ -188,14 +213,17 @@ def show_records(appointment_list):
     A list of all the records which the user has input.
 
     '''
+    print("{:<18}\t{:<30}\t{:<18}\t{:<18}".format("Date", "Subject",  "Start", "End"))
+    print("{:<18}\t{:<30}\t{:<18}\t{:<18}".format("---------","---------------------","-----","---"))
     for item in appointment_list:
-            
-        print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
+        
+        print("{:<18}\t{:<29}\t{:<18}\t{:<18}".format(
                item[0],  # date
                item[1],  # subject
                item[2],  # start
                item[3],  # end
            ))
+
 
 def is_concurrent_appointment(input_appointment, appointment_list):
     '''
@@ -230,9 +258,7 @@ def is_concurrent_appointment(input_appointment, appointment_list):
         # then it will proceed to check the next condition
         
         if (input_date == list_date):
-            # if both of the dates above match, the following conditional statement will check,
-            # whether the a list (end time) is less than (input start time), and
-            # whether the (input end time) is greater than (list start time)
+           
             
             # if the (input start time falls in the schedule of the list start and end time
             # then the loop will continue to be prompted until the user inputs a
@@ -241,10 +267,73 @@ def is_concurrent_appointment(input_appointment, appointment_list):
                 return True
             
     return False
-       
+
+def sort_records(appointment_list):
+    '''
+        This function is in-charge of sorting records per (date) and (starting time)
+    Parameters
+    ----------
+    appointment_list : TYPE
+        list
+
+    Returns
+    -------
+    None.
+
+    '''
+    while True:
+        user_input = input("\nDo you want to sort the appointments by time? (Yes/End) ").strip().upper()
+        
+        if user_input == "YES":
+            # Create a temporary list to store appointments with their date components
+            new_list = []
+            
+            # We break down each appointment into different parts so we can later on
+            # input each individual part into a newly created list before sorting each part
+            for appointment in appointment_list:
+                date_parts = appointment[0].split('/')
+                day = int(date_parts[0])
+                month = int(date_parts[1])
+                year = int(date_parts[2])
+                start_time = appointment[2]
+                
+                # Appends all the separated parts into the list
+                new_list.append([year, day, month, start_time, appointment])
+                
+            
+            # Sorting the list per *date* and *starting time*
+            new_list.sort()
+            
+            # The following loop will update the newly sorted list with the previous one
+            for i in range(len(appointment_list)):
+                appointment_list[i] = new_list[i][4]
+            
+            print("Sorted Appointments:")
+            show_records(appointment_list)
+            break
+            
+        # If the user inputs END we do not sort the list and just showcase
+        # the records function without sorting
+        elif user_input == "END":
+            show_records(appointment_list)
+            break
+        
+        # Only YES or NO are valid inputs    
+        else:
+            print("Invalid input! Please enter YES or NO")
+
     
 def add_record():
-    
+    '''
+        This is the PARENT function / WORKFLOW function, and it is 
+        in-charge of orchestrating how the program runs by having the rest
+        of the functions invoked inside of it.
+
+    Returns
+    -------
+    None.
+
+    '''
     
     appointment_list = []
     
@@ -299,28 +388,17 @@ def add_record():
             print("Please make sure that the appointment is not held at the same time as the previous appointment")
             continue
         
+        
         appointment_list.append(appointment_data_input)
+        
             
         
         
         print("\nAppointment added")
-        # After the appointment is added the following print statement,
-        # will display it to the user
-        print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format(
-            appointment_data_input[0], 
-            appointment_data_input[1],  
-            appointment_data_input[2],  
-            appointment_data_input[3],  
-        ))
-        
-        
-    print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("Date", "Subject",  "Start", "End"))
-    print("{:<18}\t{:<18}\t{:<18}\t{:<18}".format("----","-------","-----","-----"))
-    
-    
     
     # We will loop through each appointment added to the list 
-    # and display all the appointments via the show_records() function
-    show_records(appointment_list)
+    # and display all the appointments via the show_records() function invoked
+    # in sort_records function
+    sort_records(appointment_list)
     
 add_record()
