@@ -66,7 +66,6 @@ def is_valid_time(start, end):
         (start) is between 7 and 22 hours AND (end) is between 7 and 22
 
     '''
-    print('Please, enter the starting and ending time of the meeting or discussion from 7 to 22.\n')
     
     # The first condition checks whether start is less than end
     if (start < end):
@@ -150,8 +149,7 @@ def is_valid_date(days_str, month_str, year_str):
     Returns either True if the user input is valid, otherwise it will return False,
     and the user will have to input a valid date.
     '''
-    print("Please input a valid date in a (25/9/2025) date format");
-        
+    
     #This condition checks whether the input from the user is empty or not
     if not (days_str and month_str and year_str):
         print("days, month or year cannot be empty");
@@ -378,8 +376,6 @@ def add_record():
             print("Subject must be between 1 and 30 characters")
             continue
         
-        # apointment_list = f"{day}/{month}/{year};{subject};{start}{end}"
-        
         # A list of the apointment formatted accordingly
         appointment_data_input = [f"{day}/{month}/{year}", subject, start, end]
         
@@ -388,12 +384,10 @@ def add_record():
             print("Please make sure that the appointment is not held at the same time as the previous appointment")
             continue
         
-        
+        # Appending user input to the list
         appointment_list.append(appointment_data_input)
         
             
-        
-        
         print("\nAppointment added")
     
     # We will loop through each appointment added to the list 
