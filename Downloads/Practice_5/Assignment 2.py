@@ -48,8 +48,6 @@ def subject_str():
     
     return subject
 
-
-
 def is_valid_time(start, end):
     '''
     Parameters
@@ -122,7 +120,7 @@ def days_in_month(month, year):
 
     '''
     # Checks if the month is either 4,6,9 or 11
-    if (month in (4, 6, 9, 11)):
+    if (month == 4 or month == 6 or month == 9 or month == 11):
         return 30;
     
     # Checks if the month is 2
@@ -359,9 +357,6 @@ def add_record():
         day = is_date[0]
         month = is_date[1]
         year = is_date[2]
-        
-        # print(day)
-        # index = 0
             
         # Validating date input
         if not is_valid_date(day, month, year):
@@ -394,5 +389,6 @@ def add_record():
     # and display all the appointments via the show_records() function invoked
     # in sort_records function
     sort_records(appointment_list)
-    
-add_record()
+
+if __name__ == '__main__':
+    add_record()
