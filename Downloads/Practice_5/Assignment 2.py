@@ -1,3 +1,5 @@
+appointment_list = []
+
 def date():
     '''
         This function retrieves the date from the user
@@ -92,15 +94,15 @@ def is_leap_year(year):
 
     '''
     if (year % 400 == 0):
-        return True;
+        return True
     
     if (year % 100 == 0):
         return False;
     
     if (year % 4 == 0):
-        return True;
+        return True
     
-    return False;
+    return False
     
             
 def days_in_month(month, year):
@@ -121,7 +123,7 @@ def days_in_month(month, year):
     '''
     # Checks if the month is either 4,6,9 or 11
     if (month == 4 or month == 6 or month == 9 or month == 11):
-        return 30;
+        return 30
     
     # Checks if the month is 2
     elif (month == 2):
@@ -150,16 +152,16 @@ def is_valid_date(days_str, month_str, year_str):
     
     #This condition checks whether the input from the user is empty or not
     if not (days_str and month_str and year_str):
-        print("days, month or year cannot be empty");
-        return False
+        print("days, month or year cannot be empty")
+        return False;
         
     days = int(days_str)
     month = int(month_str)
     year = int(year_str)
         
     # If year is (not) between 2025 and 10000 it will prompt an error
-    if not (2024 <= year < 10000):
-        print("Year must be between 2024 and 10000")
+    if not (2025 <= year < 10000):
+        print("Year must be between 2025 and 10000");
         return False
     
     # If month is (not) between 1 and 12 it will prompt an error        
@@ -288,13 +290,19 @@ def sort_records(appointment_list):
             # input each individual part into a newly created list before sorting each part
             for appointment in appointment_list:
                 date_parts = appointment[0].split('/')
+                
+                # This makes sure that no invalid gets in the appointment list
+                if len(date_parts) != 3:
+                    print("Invalid date format", date_parts)
+                    continue
+                
                 day = int(date_parts[0])
                 month = int(date_parts[1])
                 year = int(date_parts[2])
                 start_time = appointment[2]
                 
                 # Appends all the separated parts into the list
-                new_list.append([year, day, month, start_time, appointment])
+                new_list.append([year, month, day, start_time, appointment])
                 
             
             # Sorting the list per *date* and *starting time*
@@ -330,10 +338,7 @@ def add_record():
     None.
 
     '''
-    
-    appointment_list = []
-    
-    
+
     while True:
         
         date_str = date()
@@ -371,7 +376,9 @@ def add_record():
             print("Subject must be between 1 and 30 characters")
             continue
         
-        # A list of the apointment formatted accordingly
+        # A list of the apointment formatted accordingly,
+        # where day, month and year a **single string**, which means,
+        # that essentially we are able to sort the records accordingly
         appointment_data_input = [f"{day}/{month}/{year}", subject, start, end]
         
         # Validating is concurrent appointment
